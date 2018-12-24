@@ -12,9 +12,9 @@ You must have FFmpeg installed for this to work. The [FAQ](#FAQ) section has mor
 
 ## Demo
 
-![Demo](Demo.gif)
-![Demo Results](Demo_Results.png)
-![Demo Discord](Demo_Discord.gif)
+![Demo](DemoFiles/Demo.gif)
+![Demo Results](DemoFiles/Demo_Results.png)
+![Demo Discord](DemoFiles/Demo_Discord.gif)
 
 ## Usage
 
