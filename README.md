@@ -20,7 +20,9 @@ Step by step guide
 
 ## FAQ
 
-#### Q: I get the `FFmpeg not found. Please make sure FFmpeg is in PATH.` message when I create
-A: You must have FFMpeg installed on your computer for this program to work. To install it correctly, here is a guide: https://github.com/adaptlearning/adapt_authoring/wiki/Installing-FFmpeg
+#### Q: I get the `FFmpeg not found. Please make sure FFmpeg is in PATH.` message when creating my images
+A: You must have FFmpeg installed on your computer for this program to work. To install it correctly, here is a guide: https://github.com/adaptlearning/adapt_authoring/wiki/Installing-FFmpeg
+
+##### If the download link is not working, download it from [here](https://ffmpeg.zeranoe.com/builds/win64/static/ffmpeg-20180502-e07b191-win64-static.zip)
 
 To be sure you have it installed on your system, open a `CMD` window and type `ffmpeg -version` to validate it is working.
