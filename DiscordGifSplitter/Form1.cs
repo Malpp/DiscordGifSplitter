@@ -31,7 +31,7 @@ namespace DiscordGifSplitter
         {
             get
             {
-                float xOffset = (float) (imageViewer.ClientRectangle.X + offsetX.Value);
+                float xOffset = (float) (imageViewer.ClientRectangle.X + offsetX.Value * (decimal) Scale);
                 if (imageViewer.Image != null)
                 {
                     xOffset += (imageViewer.ClientSize.Width - imageViewer.Image.Width * Scale) / 2;
@@ -44,7 +44,7 @@ namespace DiscordGifSplitter
         {
             get
             {
-                float yOffset = (float) (imageViewer.ClientRectangle.Y + offsetY.Value);
+                float yOffset = (float) (imageViewer.ClientRectangle.Y + offsetY.Value * (decimal) Scale);
                 if (imageViewer.Image != null)
                 {
                     yOffset += (imageViewer.ClientSize.Height - imageViewer.Image.Height * Scale) / 2;
@@ -107,6 +107,8 @@ namespace DiscordGifSplitter
             imagePath = image;
             imageResolution.Text = $"{imageViewer.Image.Width} x {imageViewer.Image.Height}";
             imageType.Text = imagePath.Split('.').Last();
+            offsetX.Maximum = imageViewer.Image.Width;
+            offsetY.Maximum = imageViewer.Image.Height;
         }
 
         private void image_Paint(object sender, PaintEventArgs e)
@@ -154,7 +156,7 @@ namespace DiscordGifSplitter
                 {
                     var location = dialog.FileName.Replace('\\', '/');
                     var creation = new Creation();
-                    creation.Configure(finalName.Text, imagePath, outputFormat.SelectedItem.ToString(), CellSize, XOffset, YOffset, (int) gridX.Value, (int) gridY.Value, location);
+                    creation.Configure(finalName.Text, imagePath, outputFormat.SelectedItem.ToString(), CellSize, (float) offsetX.Value, (float)offsetY.Value, (int) gridX.Value, (int) gridY.Value, location);
                     creation.StartSplitting();
                     creation.ShowDialog();
                     OpenFolder(location);

@@ -72,7 +72,7 @@ namespace DiscordGifSplitter
                     count += 1;
                     worker.ReportProgress((int) (count / totalGifs * 100));
                     var ffmpeg =
-                        $"ffmpeg -y -i \"{imagePath}\" -filter:v \"crop={cellSize}:{cellSize}:{cellSize * j + (double) xOffset}:{cellSize * i + (double) yOffset}\" {finalPath}/{name}_{count}{outputType}";
+                        $"ffmpeg -y -i \"{imagePath}\" -filter:v \"crop={cellSize}:{cellSize}:{cellSize * j + (double) xOffset}:{cellSize * i + (double) yOffset}\" \"{finalPath}/{name}_{count}{outputType}\"";
                     Console.WriteLine(ffmpeg);
                     Common.RunCommand(ffmpeg);
                     finalCommand += $":{name}_{count}:";
