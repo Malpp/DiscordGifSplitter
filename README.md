@@ -2,6 +2,12 @@
 
 Fun project I made for fun
 
+## Demo
+
+![Demo](Demo.gif)
+![Demo Results](Demo_Results.png)
+![Demo Discord](Demo_Discord.gif)
+
 ## Usage
 
 Step by step guide
@@ -14,7 +20,7 @@ Step by step guide
 
 ## FAQ
 
-Q: I get the `FFmpeg not found. Please make sure FFmpeg is in PATH.` message when I create
+#### Q: I get the `FFmpeg not found. Please make sure FFmpeg is in PATH.` message when I create
 A: You must have FFMpeg installed on your computer for this program to work. To install it correctly, here is a guide: https://github.com/adaptlearning/adapt_authoring/wiki/Installing-FFmpeg
 
 To be sure you have it installed on your system, open a `CMD` window and type `ffmpeg -version` to validate it is working.
