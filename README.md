@@ -6,7 +6,7 @@ This is basically a wrapper around FFmpeg, but easier to use.
 
 ## Download
 
-You must have FFmpeg installed for this to work. The [FAQ](#FAQ) section has more information.
+#### You must have FFmpeg installed for this to work. The [FAQ](#FAQ) section has more information.
 
 [You can download the program here](https://github.com/Malpp/DiscordGifSplitter/releases)
 
