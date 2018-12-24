@@ -293,7 +293,8 @@ namespace DiscordGifSplitter
             this.outputFormat.Items.AddRange(new object[] {
             ".gif",
             ".png",
-            ".jpg"});
+            ".jpg",
+            ".apng"});
             this.outputFormat.Location = new System.Drawing.Point(6, 71);
             this.outputFormat.Name = "outputFormat";
             this.outputFormat.Size = new System.Drawing.Size(150, 21);

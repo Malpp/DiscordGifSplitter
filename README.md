@@ -35,5 +35,12 @@ A: You must have FFmpeg installed on your computer for this program to work. To 
 
 To be sure you have it installed on your system, open a `CMD` window and type `ffmpeg -version` to validate it is working.
 
+#### If the FFmpeg install still doesn'work work, you can try the following
+
+1. Download this [zip](https://ffmpeg.zeranoe.com/builds/win64/static/ffmpeg-20180502-e07b191-win64-static.zip)
+2. Go in the `bin` folder
+3. Copy `ffmpeg.exe`
+4. Paste it where `DiscordGifSplitter.exe` is located
+
 ### Q: Sometimes I see my image being repeated? Is this normal?
 A: Yes, this is due to the grid being outside of the image. Currently the best situation is to crop the image a bit.
