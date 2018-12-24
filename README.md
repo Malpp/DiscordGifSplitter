@@ -1,10 +1,12 @@
 # Discord Gif Splitter
 
-Fun project I made for fun
+Fun project I made for fun.
+
+This is basically a wrapper around FFmpeg, but easier to use.
 
 ## Download
 
-You must have FFmpeg installed for this to work. The (FAQ)[#FAQ] section has more information.
+You must have FFmpeg installed for this to work. The [FAQ](#FAQ) section has more information.
 [Here](https://github.com/Malpp/DiscordGifSplitter/releases)
 
 ## Demo
