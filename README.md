@@ -2,6 +2,11 @@
 
 Fun project I made for fun
 
+## Download
+
+You must have FFmpeg installed for this to work. The (FAQ)[#FAQ] section has more information.
+[Here](https://github.com/Malpp/DiscordGifSplitter/releases)
+
 ## Demo
 
 ![Demo](Demo.gif)
@@ -18,7 +23,7 @@ Step by step guide
 5. Find a folder where the Gifs can be stored
 6. Open the `.txt` file that it created and copy paste in discord to see your new wall of emotes
 
-## FAQ
+## <a name="FAQ"></a>FAQ
 
 #### Q: I get the `FFmpeg not found. Please make sure FFmpeg is in PATH.` message when creating my images
 A: You must have FFmpeg installed on your computer for this program to work. To install it correctly, here is a guide: https://github.com/adaptlearning/adapt_authoring/wiki/Installing-FFmpeg
