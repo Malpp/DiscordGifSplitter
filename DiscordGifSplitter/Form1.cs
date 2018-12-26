@@ -11,8 +11,11 @@ namespace DiscordGifSplitter
 {
     public partial class MainWindow : Form
     {
-        private float NumOfCellsX => (float) gridX.Value;
-        private float NumOfCellsY => (float) gridY.Value;
+        private const int MAX_EMOTES_BEFORE_SMALLER_SIZE = 27;
+        private const int EMOTE_SMALL_PIXEL_SIZE = 22;
+        private int NumOfCellsX => (int) gridX.Value;
+        private int NumOfCellsY => (int) gridY.Value;
+        private int TotalCells => NumOfCellsX * NumOfCellsY;
 
         private float Scale
         {
@@ -27,34 +30,46 @@ namespace DiscordGifSplitter
             }
         }
 
-        private float XOffset
+        private float ScaledImageWidth => imageViewer.Image.Size.Width * Scale;
+        private float ScaledImageHeight => imageViewer.Image.Size.Height * Scale;
+        private float ScaledImageX => (imageViewer.ClientSize.Width - imageViewer.Image.Width * Scale) / 2;
+        private float ScaledImageY => (imageViewer.ClientSize.Height - imageViewer.Image.Height * Scale) / 2;
+        private bool IsImageScalingInX => ScaledXOffset >= ScaledImageY;
+
+        private float ScaledXOffset
         {
             get
             {
                 float xOffset = (float) (imageViewer.ClientRectangle.X + offsetX.Value * (decimal) Scale);
                 if (imageViewer.Image != null)
                 {
-                    xOffset += (imageViewer.ClientSize.Width - imageViewer.Image.Width * Scale) / 2;
+                    xOffset += ScaledImageX;
                 }
                 return xOffset;
             }
         }
 
-        private float YOffset
+        private float ScaledYOffset
         {
             get
             {
                 float yOffset = (float) (imageViewer.ClientRectangle.Y + offsetY.Value * (decimal) Scale);
                 if (imageViewer.Image != null)
                 {
-                    yOffset += (imageViewer.ClientSize.Height - imageViewer.Image.Height * Scale) / 2;
+                    yOffset += ScaledImageY;
                 }
                 return yOffset;
             }
         }
 
         private float ScaledCellSize => (float) gridSize.Value * (Scale);
-        private float CellSize => (float) gridSize.Value;
+
+        private float CellSize
+        {
+            get => (float) gridSize.Value;
+            set => gridSize.Value = (decimal) value;
+        }
+
         private string imagePath;
 
         public MainWindow()
@@ -62,28 +77,34 @@ namespace DiscordGifSplitter
             InitializeComponent();
             outputFormat.SelectedIndex = 0;
             DragEnter += Form1_DragEnter;
-            gridX.ValueChanged += GridXOnValueChanged;
-            gridY.ValueChanged += GridXOnValueChanged;
-            offsetX.ValueChanged += GridXOnValueChanged;
-            offsetY.ValueChanged += GridXOnValueChanged;
-            gridSize.ValueChanged += GridXOnValueChanged;
-            finalName.TextChanged += FinalNameOnTextChanged;
-            outputFormat.SelectedIndexChanged += FinalNameOnTextChanged;
+            gridX.ValueChanged += UpdateGrid;
+            gridY.ValueChanged += UpdateGrid;
+            offsetX.ValueChanged += UpdateGrid;
+            offsetY.ValueChanged += UpdateGrid;
+            gridSize.ValueChanged += UpdateGrid;
+            imageOutputName.TextChanged += OnImageOutputNameChange;
+            outputFormat.SelectedIndexChanged += OnImageOutputNameChange;
+            showImageBorder.CheckedChanged += UpdateGrid;
         }
 
-        private void FinalNameOnTextChanged(object sender, EventArgs eventArgs)
+        private void OnImageOutputNameChange(object sender, EventArgs eventArgs)
         {
-            if (finalName.Text.Length == 0)
+            if (imageOutputName.Text.Length == 0)
                 gifNamePreview.Text = "";
             else
             {
-                gifNamePreview.Text = $"{finalName.Text}_1{outputFormat.SelectedItem}";
+                gifNamePreview.Text = $"{imageOutputName.Text}_1{outputFormat.SelectedItem}";
             }
         }
 
-        private void GridXOnValueChanged(object sender, EventArgs eventArgs)
+        private void UpdateGrid(object sender, EventArgs eventArgs)
         {
             imageViewer.Refresh();
+
+            if (TotalCells >= MAX_EMOTES_BEFORE_SMALLER_SIZE && CellSize == 32f)
+            {
+                CellSize = EMOTE_SMALL_PIXEL_SIZE;
+            }
         }
 
         void Form1_DragEnter(object sender, DragEventArgs e)
@@ -91,7 +112,7 @@ namespace DiscordGifSplitter
             if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
         }
 
-        private void Form1_DragDrop(object sender, DragEventArgs e)
+        private void MainWindow_DragDrop(object sender, DragEventArgs e)
         {
             string[] files = (string[]) e.Data.GetData(DataFormats.FileDrop);
             var image = files.First();
@@ -119,26 +140,50 @@ namespace DiscordGifSplitter
 
             Graphics g = e.Graphics;
 
-            Pen p = new Pen(Color.Black);
-            Pen p2 = new Pen(Color.White);
-            p.DashStyle = DashStyle.Custom;
-            p.DashPattern = new[] {3f, 3f};
-            p2.DashStyle = DashStyle.Solid;
+            DrawGrid(g);
+            DrawImageBorder(g);
+        }
+
+        private void DrawImageBorder(Graphics g)
+        {
+            if (!showImageBorder.Checked)
+                return;
+
+            Pen borderPen = new Pen(Color.Black);
+            Pen yellowBorderPen = new Pen(Color.Yellow);
+            borderPen.DashStyle = DashStyle.Custom;
+            borderPen.DashPattern = new[] {10f, 10f};
+            var scaledImageWidth = ScaledImageWidth - (IsImageScalingInX ? 0 : 1);
+            var scaledImageHeight = ScaledImageHeight - (IsImageScalingInX ? 1 : 0);
+            g.DrawRectangle(yellowBorderPen, ScaledImageX, ScaledImageY, scaledImageWidth, scaledImageHeight);
+            g.DrawRectangle(borderPen, ScaledImageX, ScaledImageY, scaledImageWidth, scaledImageHeight);
+        }
+
+        private void DrawGrid(Graphics g)
+        {
+            Pen blackPen = new Pen(Color.Black);
+            Pen whitePen = new Pen(Color.White);
+            blackPen.DashStyle = DashStyle.Custom;
+            blackPen.DashPattern = new[] {3f, 3f};
 
             for (var y = 0; y < NumOfCellsY + 1; ++y)
             {
-                g.DrawLine(p2, XOffset, y * ScaledCellSize + YOffset, NumOfCellsX * ScaledCellSize + XOffset,
-                    y * ScaledCellSize + YOffset);
-                g.DrawLine(p, XOffset, y * ScaledCellSize + YOffset, NumOfCellsX * ScaledCellSize + XOffset,
-                    y * ScaledCellSize + YOffset);
+                g.DrawLine(whitePen, ScaledXOffset, y * ScaledCellSize + ScaledYOffset,
+                    NumOfCellsX * ScaledCellSize + ScaledXOffset,
+                    y * ScaledCellSize + ScaledYOffset);
+                g.DrawLine(blackPen, ScaledXOffset, y * ScaledCellSize + ScaledYOffset,
+                    NumOfCellsX * ScaledCellSize + ScaledXOffset,
+                    y * ScaledCellSize + ScaledYOffset);
             }
 
             for (var x = 0; x < NumOfCellsX + 1; ++x)
             {
-                g.DrawLine(p2, x * ScaledCellSize + XOffset, YOffset, x * ScaledCellSize + XOffset,
-                    NumOfCellsY * ScaledCellSize + YOffset);
-                g.DrawLine(p, x * ScaledCellSize + XOffset, YOffset, x * ScaledCellSize + XOffset,
-                    NumOfCellsY * ScaledCellSize + YOffset);
+                g.DrawLine(whitePen, x * ScaledCellSize + ScaledXOffset, ScaledYOffset,
+                    x * ScaledCellSize + ScaledXOffset,
+                    NumOfCellsY * ScaledCellSize + ScaledYOffset);
+                g.DrawLine(blackPen, x * ScaledCellSize + ScaledXOffset, ScaledYOffset,
+                    x * ScaledCellSize + ScaledXOffset,
+                    NumOfCellsY * ScaledCellSize + ScaledYOffset);
             }
         }
 
@@ -157,7 +202,8 @@ namespace DiscordGifSplitter
                 {
                     var location = dialog.FileName.Replace('\\', '/');
                     var creation = new Creation();
-                    creation.Configure(finalName.Text, imagePath, outputFormat.SelectedItem.ToString(), CellSize, (float) offsetX.Value, (float)offsetY.Value, (int) gridX.Value, (int) gridY.Value, location);
+                    creation.Configure(imageOutputName.Text, imagePath, outputFormat.SelectedItem.ToString(), CellSize,
+                        (float) offsetX.Value, (float) offsetY.Value, (int) gridX.Value, (int) gridY.Value, location);
                     creation.StartSplitting();
                     creation.ShowDialog();
                     OpenFolder(location);
@@ -174,13 +220,13 @@ namespace DiscordGifSplitter
 
         private bool IsInputValid()
         {
-            if (finalName.Text.Length == 0)
+            if (imageOutputName.Text.Length == 0)
             {
                 MessageBox.Show("Gif name is empty");
                 return false;
             }
 
-            if (finalName.Text.IndexOfAny(Path.GetInvalidFileNameChars()) != -1)
+            if (imageOutputName.Text.IndexOfAny(Path.GetInvalidFileNameChars()) != -1)
             {
                 MessageBox.Show("The filename is invalid");
                 return false;
