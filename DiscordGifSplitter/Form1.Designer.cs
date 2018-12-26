@@ -34,7 +34,7 @@ namespace DiscordGifSplitter
             this.gifNamePreview = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.finalName = new System.Windows.Forms.TextBox();
+            this.imageOutputName = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.outputFormat = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -55,6 +55,7 @@ namespace DiscordGifSplitter
             this.label8 = new System.Windows.Forms.Label();
             this.create = new System.Windows.Forms.Button();
             this.imageViewer = new System.Windows.Forms.PictureBox();
+            this.showImageBorder = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -102,11 +103,11 @@ namespace DiscordGifSplitter
             this.groupBox2.Controls.Add(this.gifNamePreview);
             this.groupBox2.Controls.Add(this.checkBox1);
             this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.finalName);
+            this.groupBox2.Controls.Add(this.imageOutputName);
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.outputFormat);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox2.Location = new System.Drawing.Point(0, 225);
+            this.groupBox2.Location = new System.Drawing.Point(0, 251);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(160, 124);
             this.groupBox2.TabIndex = 16;
@@ -148,15 +149,15 @@ namespace DiscordGifSplitter
             this.label7.TabIndex = 12;
             this.label7.Text = "Output format";
             // 
-            // finalName
+            // imageOutputName
             // 
-            this.finalName.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.imageOutputName.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.finalName.Location = new System.Drawing.Point(6, 32);
-            this.finalName.Name = "finalName";
-            this.finalName.Size = new System.Drawing.Size(148, 20);
-            this.finalName.TabIndex = 10;
+            this.imageOutputName.Location = new System.Drawing.Point(6, 32);
+            this.imageOutputName.Name = "imageOutputName";
+            this.imageOutputName.Size = new System.Drawing.Size(148, 20);
+            this.imageOutputName.TabIndex = 10;
             // 
             // label6
             // 
@@ -188,6 +189,7 @@ namespace DiscordGifSplitter
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.showImageBorder);
             this.groupBox1.Controls.Add(this.gridSize);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
@@ -201,7 +203,7 @@ namespace DiscordGifSplitter
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Location = new System.Drawing.Point(0, 79);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(160, 146);
+            this.groupBox1.Size = new System.Drawing.Size(160, 172);
             this.groupBox1.TabIndex = 15;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Grid options";
@@ -226,7 +228,7 @@ namespace DiscordGifSplitter
             this.gridSize.Size = new System.Drawing.Size(81, 20);
             this.gridSize.TabIndex = 1;
             this.gridSize.Value = new decimal(new int[] {
-            100,
+            32,
             0,
             0,
             0});
@@ -399,12 +401,23 @@ namespace DiscordGifSplitter
             this.imageViewer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.imageViewer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.imageViewer.Location = new System.Drawing.Point(0, 0);
+            this.imageViewer.Margin = new System.Windows.Forms.Padding(3, 3, 3, 100);
             this.imageViewer.Name = "imageViewer";
             this.imageViewer.Size = new System.Drawing.Size(496, 438);
             this.imageViewer.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imageViewer.TabIndex = 0;
             this.imageViewer.TabStop = false;
             this.imageViewer.Paint += new System.Windows.Forms.PaintEventHandler(this.image_Paint);
+            // 
+            // showImageBorder
+            // 
+            this.showImageBorder.AutoSize = true;
+            this.showImageBorder.Location = new System.Drawing.Point(9, 146);
+            this.showImageBorder.Name = "showImageBorder";
+            this.showImageBorder.Size = new System.Drawing.Size(117, 17);
+            this.showImageBorder.TabIndex = 9;
+            this.showImageBorder.Text = "Show image border";
+            this.showImageBorder.UseVisualStyleBackColor = true;
             // 
             // MainWindow
             // 
@@ -418,7 +431,7 @@ namespace DiscordGifSplitter
             this.MinimumSize = new System.Drawing.Size(700, 500);
             this.Name = "MainWindow";
             this.Text = "Discord Gif Splitter";
-            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Form1_DragDrop);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainWindow_DragDrop);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -456,7 +469,7 @@ namespace DiscordGifSplitter
         private System.Windows.Forms.ComboBox outputFormat;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox finalName;
+        private System.Windows.Forms.TextBox imageOutputName;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox imageMetadata;
         private System.Windows.Forms.GroupBox groupBox2;
@@ -466,6 +479,7 @@ namespace DiscordGifSplitter
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Label gifNamePreview;
+        private System.Windows.Forms.CheckBox showImageBorder;
     }
 }
 
