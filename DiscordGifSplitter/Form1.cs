@@ -126,7 +126,6 @@ namespace DiscordGifSplitter
 
         private void UpdateGifOutputSize()
         {
-            Console.WriteLine($"{CellsArea} / {ImageArea} = {CellToImageArea} * {ImageFileSize} = {ImageFileSize * CellToImageArea / TotalCells}");
             gifOutputSize.Text = IsImagePresent ? Common.BytesToString((long) (ImageFileSize * CellToImageArea / TotalCells)) : "";
         }
 
@@ -155,6 +154,7 @@ namespace DiscordGifSplitter
             offsetX.Maximum = imageViewer.Image.Width;
             offsetY.Maximum = imageViewer.Image.Height;
             imageViewer.BackgroundImage = null;
+            gridSize.Maximum = Math.Max(imageViewer.Image.Width, imageViewer.Image.Height);
         }
 
         private void image_Paint(object sender, PaintEventArgs e)
