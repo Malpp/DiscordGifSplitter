@@ -18,6 +18,7 @@ namespace DiscordGifSplitter
         private int gridX;
         private string finalPath;
         private Task splittingTask;
+        private string palattePath;
 
         public Creation()
         {
@@ -55,9 +56,16 @@ namespace DiscordGifSplitter
         {
             BackgroundWorker worker = sender as BackgroundWorker;
 
+            if (!CreatePalette())
+            {
+                MessageBox.Show(
+                    "Unable to create file \"palette.png\" at folder location. Please see if write permissions are enabled and the folder is not Admin only.");
+                e.Cancel = true;
+                return;
+            }
+
             float totalGifs = gridX * gridY;
             string finalCommand = "";
-            string name = gifName;
             var count = 0;
             for (int i = 0; i < gridY; i++)
             {
@@ -72,20 +80,41 @@ namespace DiscordGifSplitter
                     count += 1;
                     worker.ReportProgress((int) (count / totalGifs * 100));
                     var ffmpeg =
-                        $"ffmpeg -y -i \"{imagePath}\" -filter:v \"crop={cellSize}:{cellSize}:{cellSize * j + (double) xOffset}:{cellSize * i + (double) yOffset}\" \"{finalPath}/{name}_{count}{outputType}\"";
+                        $"ffmpeg -y -i \"{imagePath}\" -i \"{palattePath}\" -lavfi \"crop={cellSize}:{cellSize}:{cellSize * j + (double) xOffset}:{cellSize * i + (double) yOffset} [x]; [x][1:v] paletteuse\" \"{finalPath}/{gifName}_{count}{outputType}\"";
                     Console.WriteLine(ffmpeg);
                     Common.RunCommand(ffmpeg);
-                    finalCommand += $":{name}_{count}:";
+                    finalCommand += $":{gifName}_{count}:";
                 }
                 finalCommand += "\n";
             }
-            string textPath = $"{finalPath}/_copy_from_here-{name}.txt";
+            string textPath = $"{finalPath}/_copy_from_here-{gifName}.txt";
             if (!File.Exists(textPath))
             {
                 using (StreamWriter sw = File.CreateText(textPath))
                 {
                     sw.Write(finalCommand);
                 }
+            }
+            DeletePalette();
+        }
+
+        private bool CreatePalette()
+        {
+            palattePath = $"{finalPath}/palette.png";
+            Common.RunCommand($"ffmpeg -y -i \"{imagePath}\" -vf palettegen \"{palattePath}\"");
+
+            return File.Exists(palattePath);
+        }
+
+        private void DeletePalette()
+        {
+            try
+            {
+                File.Delete(palattePath);
+            }
+            catch (Exception)
+            {
+                // ignored
             }
         }
 
