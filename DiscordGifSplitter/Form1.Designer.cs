@@ -28,6 +28,7 @@ namespace DiscordGifSplitter
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -38,6 +39,7 @@ namespace DiscordGifSplitter
             this.label6 = new System.Windows.Forms.Label();
             this.outputFormat = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.showImageBorder = new System.Windows.Forms.CheckBox();
             this.gridSize = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -55,7 +57,9 @@ namespace DiscordGifSplitter
             this.label8 = new System.Windows.Forms.Label();
             this.create = new System.Windows.Forms.Button();
             this.imageViewer = new System.Windows.Forms.PictureBox();
-            this.showImageBorder = new System.Windows.Forms.CheckBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.gifOutputSize = new System.Windows.Forms.Label();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -93,13 +97,15 @@ namespace DiscordGifSplitter
             // 
             this.splitContainer1.Panel2.Controls.Add(this.imageViewer);
             this.splitContainer1.Panel2MinSize = 160;
-            this.splitContainer1.Size = new System.Drawing.Size(660, 438);
+            this.splitContainer1.Size = new System.Drawing.Size(660, 453);
             this.splitContainer1.SplitterDistance = 160;
             this.splitContainer1.TabIndex = 3;
             this.splitContainer1.TabStop = false;
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.gifOutputSize);
+            this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.Controls.Add(this.gifNamePreview);
             this.groupBox2.Controls.Add(this.checkBox1);
             this.groupBox2.Controls.Add(this.label7);
@@ -109,7 +115,7 @@ namespace DiscordGifSplitter
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox2.Location = new System.Drawing.Point(0, 251);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(160, 124);
+            this.groupBox2.Size = new System.Drawing.Size(160, 141);
             this.groupBox2.TabIndex = 16;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Output options";
@@ -207,6 +213,16 @@ namespace DiscordGifSplitter
             this.groupBox1.TabIndex = 15;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Grid options";
+            // 
+            // showImageBorder
+            // 
+            this.showImageBorder.AutoSize = true;
+            this.showImageBorder.Location = new System.Drawing.Point(9, 146);
+            this.showImageBorder.Name = "showImageBorder";
+            this.showImageBorder.Size = new System.Drawing.Size(117, 17);
+            this.showImageBorder.TabIndex = 9;
+            this.showImageBorder.Text = "Show image border";
+            this.showImageBorder.UseVisualStyleBackColor = true;
             // 
             // gridSize
             // 
@@ -386,7 +402,7 @@ namespace DiscordGifSplitter
             // 
             this.create.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.create.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.create.Location = new System.Drawing.Point(0, 388);
+            this.create.Location = new System.Drawing.Point(0, 403);
             this.create.MinimumSize = new System.Drawing.Size(0, 50);
             this.create.Name = "create";
             this.create.Size = new System.Drawing.Size(160, 50);
@@ -403,32 +419,52 @@ namespace DiscordGifSplitter
             this.imageViewer.Location = new System.Drawing.Point(0, 0);
             this.imageViewer.Margin = new System.Windows.Forms.Padding(3, 3, 3, 100);
             this.imageViewer.Name = "imageViewer";
-            this.imageViewer.Size = new System.Drawing.Size(496, 438);
+            this.imageViewer.Size = new System.Drawing.Size(496, 453);
             this.imageViewer.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imageViewer.TabIndex = 0;
             this.imageViewer.TabStop = false;
             this.imageViewer.Paint += new System.Windows.Forms.PaintEventHandler(this.image_Paint);
             // 
-            // showImageBorder
+            // label10
             // 
-            this.showImageBorder.AutoSize = true;
-            this.showImageBorder.Location = new System.Drawing.Point(9, 146);
-            this.showImageBorder.Name = "showImageBorder";
-            this.showImageBorder.Size = new System.Drawing.Size(117, 17);
-            this.showImageBorder.TabIndex = 9;
-            this.showImageBorder.Text = "Show image border";
-            this.showImageBorder.UseVisualStyleBackColor = true;
+            this.label10.AutoSize = true;
+            this.label10.Cursor = System.Windows.Forms.Cursors.Help;
+            this.label10.Location = new System.Drawing.Point(6, 122);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(70, 13);
+            this.label10.TabIndex = 17;
+            this.label10.Text = "Apx size/cell:";
+            this.toolTip1.SetToolTip(this.label10, "Sizes may vary a lot. This is just a very rough approxamation.\r\nDouble check your" +
+        " gifs at the end to see if they don\'t go over 256KB.\r\n\r\nA good rule of thumb is " +
+        "to aim for around 210-220KB to be safe.");
+            // 
+            // gifOutputSize
+            // 
+            this.gifOutputSize.AutoSize = true;
+            this.gifOutputSize.Location = new System.Drawing.Point(82, 122);
+            this.gifOutputSize.Name = "gifOutputSize";
+            this.gifOutputSize.Size = new System.Drawing.Size(0, 13);
+            this.gifOutputSize.TabIndex = 18;
+            // 
+            // toolTip1
+            // 
+            this.toolTip1.AutomaticDelay = 100;
+            this.toolTip1.AutoPopDelay = 20000;
+            this.toolTip1.InitialDelay = 100;
+            this.toolTip1.ReshowDelay = 20;
+            this.toolTip1.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.toolTip1.ToolTipTitle = "This is just rough estimate!";
             // 
             // MainWindow
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 462);
+            this.ClientSize = new System.Drawing.Size(684, 477);
             this.Controls.Add(this.splitContainer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.MinimumSize = new System.Drawing.Size(700, 500);
+            this.MinimumSize = new System.Drawing.Size(700, 515);
             this.Name = "MainWindow";
             this.Text = "Discord Gif Splitter";
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainWindow_DragDrop);
@@ -480,6 +516,9 @@ namespace DiscordGifSplitter
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Label gifNamePreview;
         private System.Windows.Forms.CheckBox showImageBorder;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label gifOutputSize;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
 
