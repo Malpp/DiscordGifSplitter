@@ -16,6 +16,10 @@ namespace DiscordGifSplitter
         private int NumOfCellsX => (int) gridX.Value;
         private int NumOfCellsY => (int) gridY.Value;
         private int TotalCells => NumOfCellsX * NumOfCellsY;
+        private bool IsImagePresent => imageViewer.Image != null;
+        private float CellsArea => TotalCells * CellSize * CellSize;
+        private float ImageArea => imageViewer.Image.Height * imageViewer.Image.Width;
+        private float CellToImageArea => CellsArea / ImageArea;
 
         private float Scale
         {
@@ -71,6 +75,17 @@ namespace DiscordGifSplitter
         }
 
         private string imagePath;
+        private long imageFileSize;
+
+        private long ImageFileSize
+        {
+            get => imageFileSize;
+            set
+            {
+                imageFileSize = value;
+                UpdateGifOutputSize();
+            }
+        }
 
         public MainWindow()
         {
@@ -101,10 +116,18 @@ namespace DiscordGifSplitter
         {
             imageViewer.Refresh();
 
+            UpdateGifOutputSize();
+
             if (TotalCells >= MAX_EMOTES_BEFORE_SMALLER_SIZE && CellSize == 32f)
             {
                 CellSize = EMOTE_SMALL_PIXEL_SIZE;
             }
+        }
+
+        private void UpdateGifOutputSize()
+        {
+            Console.WriteLine($"{CellsArea} / {ImageArea} = {CellToImageArea} * {ImageFileSize} = {ImageFileSize * CellToImageArea / TotalCells}");
+            gifOutputSize.Text = IsImagePresent ? Common.BytesToString((long) (ImageFileSize * CellToImageArea / TotalCells)) : "";
         }
 
         void Form1_DragEnter(object sender, DragEventArgs e)
@@ -119,6 +142,7 @@ namespace DiscordGifSplitter
             try
             {
                 imageViewer.Image = Image.FromFile(image);
+                ImageFileSize = new FileInfo(image).Length;
             }
             catch (Exception exception)
             {
