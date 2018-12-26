@@ -109,6 +109,7 @@ namespace DiscordGifSplitter
             imageType.Text = imagePath.Split('.').Last();
             offsetX.Maximum = imageViewer.Image.Width;
             offsetY.Maximum = imageViewer.Image.Height;
+            imageViewer.BackgroundImage = null;
         }
 
         private void image_Paint(object sender, PaintEventArgs e)
