@@ -8,6 +8,8 @@ This is basically a wrapper around FFmpeg, but easier to use.
 
 #### You must have FFmpeg installed for this to work. The [FAQ](#FAQ) section has more information.
 
+#### If you're having trouble installing FFmpeg, download the `_with_ffmpeg.zip` version
+
 [You can download the program here](https://github.com/Malpp/DiscordGifSplitter/releases)
 
 ## Demo
