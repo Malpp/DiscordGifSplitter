@@ -76,6 +76,7 @@ namespace DiscordGifSplitter
 
         private string imagePath;
         private long imageFileSize;
+        private bool hasChangedGridSize;
 
         private long ImageFileSize
         {
@@ -118,9 +119,10 @@ namespace DiscordGifSplitter
 
             UpdateGifOutputSize();
 
-            if (TotalCells >= MAX_EMOTES_BEFORE_SMALLER_SIZE && CellSize == 32f)
+            if (TotalCells >= MAX_EMOTES_BEFORE_SMALLER_SIZE && CellSize == 32f && !hasChangedGridSize)
             {
                 CellSize = EMOTE_SMALL_PIXEL_SIZE;
+                hasChangedGridSize = true;
             }
         }
 

@@ -1,4 +1,8 @@
-﻿namespace DiscordGifSplitter
+﻿using System.Drawing;
+using System.IO;
+using System.Reflection;
+
+namespace DiscordGifSplitter
 {
     partial class Creation
     {
@@ -83,7 +87,9 @@
             this.Controls.Add(this.cancel);
             this.Controls.Add(this.progressBar);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            var assembly = typeof(MainWindow).GetTypeInfo().Assembly;
+            Stream iconResource = assembly.GetManifestResourceStream("DiscordGifSplitterCore.Resources.Logo.ico");
+            this.Icon = new Icon(iconResource);
             this.Name = "Creation";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Creation";

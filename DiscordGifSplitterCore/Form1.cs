@@ -216,14 +216,13 @@ namespace DiscordGifSplitter
             {
                 return;
             }
-            /*
-            using (var dialog = new CommonOpenFileDialog())
+            
+            using (var dialog = new FolderBrowserDialog())
             {
-                dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                dialog.IsFolderPicker = true;
-                if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+                dialog.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    var location = dialog.FileName.Replace('\\', '/');
+                    var location = dialog.SelectedPath.Replace('\\', '/');
                     var creation = new Creation();
                     creation.Configure(imageOutputName.Text, imagePath, outputFormat.SelectedItem.ToString(), CellSize,
                         (float) offsetX.Value, (float) offsetY.Value, (int) gridX.Value, (int) gridY.Value, location);
@@ -231,7 +230,7 @@ namespace DiscordGifSplitter
                     creation.ShowDialog();
                     OpenFolder(location);
                 }
-            }*/
+            }
         }
 
         private void OpenFolder(string location)
